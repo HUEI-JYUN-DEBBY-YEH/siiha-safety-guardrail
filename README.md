@@ -180,6 +180,7 @@ This baseline version does not focus on:
 ## Author & Developer
 
 HUEI-JYUN (Debby) YEH
+
 LinkedIn: [https://www.linkedin.com/in/debbyyeh/](https://www.linkedin.com/in/debbyyeh/)
 
 ---
