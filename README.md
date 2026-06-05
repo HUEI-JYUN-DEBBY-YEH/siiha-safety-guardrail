@@ -42,7 +42,7 @@ SIIHA investigates whether a runtime governance layer can help observe and mitig
 
 ## Demo Video
 
-[![SIIHA Runtime Governance Demo](thumbnail.png)](youtube_link)
+[![SIIHA Runtime Governance Demo](assets/thumbnail.png)](https://youtu.be/9Br2icVeIx8)
 
 This demo compares raw LLM behavior and SIIHA-governed responses under the same model, API key, and token budget.
 
