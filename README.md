@@ -61,32 +61,49 @@ The objective is not to outperform the foundation model, but to demonstrate how 
 User Prompt
       |
       v
-+----------------------+
-| Context Engine       |
-+----------------------+
-      |
-      v
-+----------------------+
-| Response Router      |
-+----------------------+
-      |
-      v
-+----------------------+
-| Response Renderer    |
-+----------------------+
-      |
-      v
-+----------------------+
-| Output Filter        |
-+----------------------+
-      |
-      v
-Response to User
-
-      ^
-      |
-+----------------------+
-| Failure Observation  |
++----------------------+        reads recent state
+| Context Engine       | <-----------------------------+
+| Rule-based signal    |                               |
+| detection            |                               |
++----------------------+                               |
+      |                                                |
+      v                                                |
++----------------------+                               |
+| Response Router      |                               |
+| Deterministic        |                               |
+| route selection      |                               |
++----------------------+                               |
+      |                                                |
+      v                                                |
++----------------------+                               |
+| Response Renderer    |                               |
+| LLM generation with  |                               |
+| runtime modifiers    |                               |
++----------------------+                               |
+      |                                                |
+      v                                                |
++----------------------+                               |
+| Output Filter        |                               |
+| Rule-based phrase    |                               |
+| filtering            |                               |
++----------------------+                               |
+      |                                                |
+      v                                                |
+Response to User                                       |
+      |                                                |
+      v                                                |
++----------------------+        writes observation      |
+| Failure Observation  | ----------------------------> |
+| Multi-turn pattern   |                               |
+| monitoring           |                               |
++----------------------+                               |
+      |                                                |
+      v                                                |
++----------------------+                               |
+| State / Session Store| -----------------------------+
+| Recent turns         |
+| Runtime controls     |
+| Trajectory signals   |
 +----------------------+
 ```
 
@@ -118,6 +135,8 @@ SIIHA continuously observes interaction trajectories and applies runtime governa
 
 The focus is not only individual responses, but the interaction trajectory formed across repeated exchanges.
 
+The system assumes that certain socioaffective risks emerge not from a single response, but from interaction trajectories formed through repeated reinforcement across multiple turns.
+
 ### Model-Agnostic Architecture
 
 The current baseline is validated on Gemini models only.
@@ -136,6 +155,7 @@ Future validation across multiple model providers remains future work.
 * Rule-Based Decision Routing
 * Multi-Turn Failure Observation
 * LLM-Based Response Rendering
+* Pipeline Pattern and In-Memory State
 
 ### Backend
 
@@ -165,18 +185,28 @@ Future validation across multiple model providers remains future work.
 
 ## Current Limitations
 
-This baseline version does not focus on:
+* Rule-Based Phrase-Matching & Deterministic Routing: In this initial baseline, the `Context Engine` and `Output Filter` rely on predefined phrase matching and deterministic rules rather than deep LLM semantic understanding. 
+* Lack of Long-Term Interaction Memory: The current design only tracks recent interactions within a sliding window of a limited number of turns, rather than maintaining a persistent, long-term memory state.
+* No Latency Optimization: This baseline focuses on demonstrating the effectiveness of runtime governance on model behavior. Latency optimization is deferred to future production-level development.
+* Single-Model Validation: The current experiment runs with Gemini models only.
+* No Formal User Study Conducted: The current baseline has only been tested against self-generated and LLM-synthesized testing prompts.
 
-* Cybersecurity
-* Prompt Injection
-* Model Security
-* Adversarial Robustness
+---
+
+## Future Work 
+* LLM-assisted semantic understanding
+* Expand safety domains for broader long-term human-AI interaction risks
+* Long-term interaction memory
+* Latency-aware runtime governance
+* Runtime evaluation framework
+* Cross-model validation
+* Human-AI interaction risk benchmarking
 
 ---
 
 ## Development Status
 
-* Current Version: siiha-safety-guardrail v1.0 (baseline)
+* Current Version: siiha-safety-guardrail v1.0-alpha (baseline)
 * Release Date: 2026/06/15
 * Status: Active Development
 
@@ -190,7 +220,10 @@ LinkedIn: [https://www.linkedin.com/in/debbyyeh/](https://www.linkedin.com/in/de
 
 ---
 
-## Declaration
+## Scope, Limitations & Disclaimers
 
-* SIIHA is intentionally designed not to include: code assistant, medical advice, psychological diagnosis, cybersecurity related AI safety. This project explores socioaffective risks in long-term human-AI interaction.
+* SIIHA does NOT provide psychological diagnoses, medical advice, or mental health intervention. 
+* SIIHA explores socioaffective risks in long-term human-AI interaction. It is a research prototype focusing on interaction dynamics, not a certified clinical tool.
+* This baseline does not cover prompt injection, code generation risks, or cybersecurity vulnerabilities. 
+* Due to the current rule-based context detection, the system may trigger **False Positives**. For example, if a psychology student abstractly discusses "how to treat patients with AI dependency," the system might misclassify this academic intent as a personal dependency signal and incorrectly apply runtime constraints. 
 * SIIHA Safety Guardrail is not an open-source project. If you're interested in this area, please contact the author via LinkedIn.
