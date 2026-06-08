@@ -1,7 +1,9 @@
 # SIIHA Demo Scenario v1 — Human-AI Dependency Escalation
 
 Date: 2026-06-15
+
 Demo Type: Raw LLM vs SIIHA Runtime Governance
+
 Scenario Focus: Human-AI Dependency, Emotional Vulnerability, Runtime Constraint Control
 
 ---
