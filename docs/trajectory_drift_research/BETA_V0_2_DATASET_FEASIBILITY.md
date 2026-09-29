@@ -334,7 +334,7 @@ U1 + R1 + U2 + R2 + U3     → R3
 Equivalently:
 
 $$
-R_t = f(U_{\leq t}, R_{<t})
+R_t = f\left(U_{\leq t}, R_{< t}\right)
 $$
 
 This preserved a runtime-like temporal information boundary during system realization and prevented future user turns from being used to construct an earlier assistant response.
