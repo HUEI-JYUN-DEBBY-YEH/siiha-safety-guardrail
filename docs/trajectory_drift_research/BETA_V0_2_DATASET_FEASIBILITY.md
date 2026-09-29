@@ -69,7 +69,7 @@ Post-Test error analysis raised a more basic measurement concern: Beta v0.1 did 
 
 The central v0.1 measurement concern became:
 
-> **Deviation from normal `X^goal` was not established as a sufficient proxy for semantic governance drift `Y_goal`.**
+> **Deviation from normal $X^{goal}$ was not established as a sufficient proxy for semantic governance drift $Y_{goal}$.**
 
 Beta v0.2 did not reopen v0.1. It tested a new unit-of-analysis hypothesis motivated by the post-Test analysis.
 
@@ -198,7 +198,7 @@ Each planned trajectory contained 2–10 turns, and every adjacent transition wi
 
 The planned model-visible representation preserved both sides of a continuity-valid transition.
 
-For edge `E_(t-1,t)`:
+For edge $E_{t-1,t}$:
 
 ```text
 User side:
@@ -333,9 +333,9 @@ U1 + R1 + U2 + R2 + U3     → R3
 
 Equivalently:
 
-```text
-R_t = f(U_≤t, R_<t)
-```
+$$
+R_t = f(U_{\leq t}, R_{<t})
+$$
 
 This preserved a runtime-like temporal information boundary during system realization and prevented future user turns from being used to construct an earlier assistant response.
 

@@ -6,7 +6,7 @@
 
 **Research track:** [Overview](./README.md) · [Beta v0.1](./BETA_V0_1_EXPERIMENT.md) · [Beta v0.2](./BETA_V0_2_DATASET_FEASIBILITY.md)
 
-------------------------------------------------------------------------
+---
 
 ## Executive Summary
 
@@ -44,7 +44,7 @@ Frozen evaluation
 
 The cross-version takeaway is not that one replacement representation or model has already been validated. It is that longitudinal governance measurement requires stronger alignment among the semantic target, observable evidence, unit of analysis, feature representation, data properties, and model assumptions before model optimization begins.
 
-------------------------------------------------------------------------
+---
 
 # Part I --- Empirical Findings
 
@@ -60,19 +60,19 @@ Beta v0.1 generated a raw corpus of **400 synthetic trajectories / 4,627 complet
 
 Independent Semantic QA produced:
 
-  QA verdict     Count
-  ------------ -------
-  ACCEPT           258
-  REJECT           134
-  REVIEW             8
+  | QA verdict | Count |
+  |---|---:|
+  | ACCEPT | 258 |
+  | REJECT | 134 |
+  | REVIEW | 8 |
 
 The difference between generation intent and independently judged semantic realization was especially visible for Controlled Drift:
 
-  Generation role      ACCEPT   REJECT   REVIEW
-  ------------------ -------- -------- --------
-  Controlled Drift         42       88        5
-  Novel Normal            134        1        0
-  Normal                   82       45        3
+  | Generation role | ACCEPT | REJECT | REVIEW |
+  |---|---:|---:|---:|
+  | Controlled Drift | 42 | 88 | 5 |
+  | Novel Normal | 134 | 1 | 0 |
+  | Normal | 82 | 45 | 3 |
 
 After conservative curation and targeted adjudication required to resolve the final dataset, **263 trajectories** entered the frozen ML
 dataset and **137 were quarantined**.
@@ -121,7 +121,7 @@ Generation intent had to remain provenance until the realized interaction indepe
 
 Both versions used `gpt-5.6-luna` for synthetic generation and Semantic QA. The separation was therefore an **information and experimental-role boundary**, not model-family independence. Neither experiment tested whether semantic judgments would remain stable under a different Judge model.
 
-------------------------------------------------------------------------
+---
 
 # 2. The Current X-to-Y Mapping Was Not Established
 
@@ -131,20 +131,20 @@ Four goal-specific anomaly detectors learned normality from curated governance-s
 
 The implicit measurement hypothesis was approximately:
 
-``` text
-Deviation from normal X^goal
-        ≈
-Semantic governance drift Y_goal
-```
+$$
+\text{Deviation from normal } X^{goal}
+\approx
+\text{Semantic governance drift } Y_{goal}
+$$
 
 The one-shot held-out Test produced:
 
-  Goal     Positives   ROC-AUC   PR-AUC   Precision   Recall      F1     FPR
-  ------ ----------- --------- -------- ----------- -------- ------- -------
-  UG               3     0.398    0.057       0.000    0.000   0.000   0.123
-  SG               8     0.772    0.407       0.308    0.500   0.381   0.173
-  EA              11     0.653    0.386       0.294    0.455   0.357   0.245
-  SF               2     0.957    0.643       0.000    0.000   0.000   0.000
+  | Goal | Positives | ROC-AUC | PR-AUC | Precision | Recall | F1 | FPR |
+  |---|---:|---:|---:|---:|---:|---:|---:|
+  | UG | 3 | 0.398 | 0.057 | 0.000 | 0.000 | 0.000 | 0.123 |
+  | SG | 8 | 0.772 | 0.407 | 0.308 | 0.500 | 0.381 | 0.173 |
+  | EA | 11 | 0.653 | 0.386 | 0.294 | 0.455 | 0.357 | 0.245 |
+  | SF | 2 | 0.957 | 0.643 | 0.000 | 0.000 | 0.000 | 0.000 |
 
 The supported conclusion is narrow:
 
@@ -166,7 +166,7 @@ They do **not** establish that the detectors successfully learned a broad class 
 
 The narrower research question is whether the current observable representation makes each semantic governance construct sufficiently identifiable for the chosen learning formulation.
 
-------------------------------------------------------------------------
+---
 
 # 3. The Four Governance Dimensions Produced Different Statistical Behavior Under the Frozen v0.1 Experiment
 
@@ -174,31 +174,12 @@ Beta v0.1 did not produce uniform held-out behavior across UG, SG, EA, and SF.
 
 The Test metrics differed materially:
 
-  --------------------------------------------------------------------------
-  Goal                         ROC-AUC               PR-AUC Experimental
-                                                            interpretation
-  --------------- -------------------- -------------------- ----------------
-  UG                             0.398                0.057 No held-out
-                                                            generalization
-                                                            under the frozen
-                                                            representation
-
-  SG                             0.772                0.407 Strongest
-                                                            credible signal,
-                                                            but not reliable
-                                                            enough for
-                                                            validated
-                                                            detection
-
-  EA                             0.653                0.386 Partial signal
-                                                            with substantial
-                                                            false positives
-
-  SF                             0.957                0.643 Only two
-                                                            positives;
-                                                            operating point
-                                                            not validated
-  --------------------------------------------------------------------------
+| Goal | ROC-AUC | PR-AUC | Experimental interpretation |
+|---|---:|---:|---|
+| UG | 0.398 | 0.057 | No held-out generalization under the frozen representation |
+| SG | 0.772 | 0.407 | Strongest credible signal, but not reliable enough for validated detection |
+| EA | 0.653 | 0.386 | Partial signal with substantial false positives |
+| SF | 0.957 | 0.643 | Only two positives; operating point not validated |
 
 The frozen representations also had different statistical support. In particular, the SF Train representation contained **1,644 turns but only 206 unique feature vectors**. By contrast, the UG, SG, and EA Train views had distinct final feature vectors for all 1,644 Train turns.
 
@@ -213,7 +194,7 @@ A future trajectory-drift design should therefore preserve construct-specific me
 -   the same statistical support;
 -   or the same model formulation.
 
-------------------------------------------------------------------------
+---
 
 # 4.  Dataset Feasibility Can Be an Experimental Result Before ML
 
@@ -250,7 +231,7 @@ No merged 76-trajectory canonical ML dataset was therefore frozen.
 
 The edge-representation hypothesis remains **untested**.
 
-------------------------------------------------------------------------
+---
 
 # Part II --- ML Research Methodology Lessons
 
@@ -300,7 +281,7 @@ In shorthand:
 
 This is a methodological lesson from the experiments, not evidence that one replacement Feature X or representation has already been validated.
 
-------------------------------------------------------------------------
+---
 
 # 6. Strong Hypothesis, Data Structure, and Algorithm Must Agree
 
@@ -328,7 +309,7 @@ For example, choosing a normal-only anomaly formulation implicitly asks whether 
 
 The lesson is not that Isolation Forest was categorically wrong. It is that model choice cannot compensate for an unvalidated relationship between the semantic construct and its observable representation.
 
-------------------------------------------------------------------------
+---
 
 # 7. Synthetic Data Needs a Frozen No-Post-Hoc-Repair Rule
 
@@ -369,7 +350,7 @@ This preserves the difference between:
 
 The second procedure may be useful in a different dataset-engineering objective, but it would answer a different experimental question.
 
-------------------------------------------------------------------------
+---
 
 # 8. Ablation Tests I Should Have Designed Earlier
 
@@ -482,7 +463,7 @@ A future design could compare multiple generator/Judge combinations while holdin
 
 Neither question was answered by Beta v0.1 or Beta v0.2.
 
-------------------------------------------------------------------------
+---
 
 # 9. Unit of Analysis Is Part of the Measurement Hypothesis
 
@@ -490,21 +471,12 @@ The unit of analysis should not be treated as a neutral implementation detail.
 
 Different units expose different relationships directly:
 
-  -----------------------------------------------------------------------
-  Unit                                Relationship represented directly
-  ----------------------------------- -----------------------------------
-  Turn / node                         State of one completed interaction
-                                      turn
-
-  Continuity-valid edge               Change or relation between adjacent
-                                      continuity-valid turns
-
-  Window                              Local accumulation, persistence, or
-                                      short-range evolution
-
-  Whole trajectory                    Global progression or long-horizon
-                                      pattern
-  -----------------------------------------------------------------------
+| Unit | Relationship represented directly |
+|---|---|
+| Turn / node | State of one completed interaction turn |
+| Continuity-valid edge | Change or relation between adjacent continuity-valid turns |
+| Window | Local accumulation, persistence, or short-range evolution |
+| Whole trajectory | Global progression or long-horizon pattern |
 
 Beta v0.1 primarily modeled the first form and then aggregated turn-level anomaly evidence.
 
@@ -534,7 +506,7 @@ However, Beta v0.2 stopped at dataset feasibility before edge feature extraction
 
 The current research program does not establish that edges are superior to turns, windows, or whole trajectories.
 
-------------------------------------------------------------------------
+---
 
 # 10. Define Non-Violable Experimental Boundaries Before Running
 
@@ -582,7 +554,7 @@ Beta v0.1 preserved the one-shot held-out result instead of tuning on Test. Beta
 
 These boundaries do not guarantee a valid experiment by themselves. They constrain which conclusions can be drawn from the experiment that was actually run.
 
-------------------------------------------------------------------------
+---
 
 # Part III --- SIIHA Safety Architecture Takeaways
 
@@ -623,7 +595,7 @@ Conceptually:
 SIIHA failure observation
         ↓
 ┌──────────────────────────┬─────────────────────────────┐
-│ Runtime / agent failure  │ Interaction-trajectory     │
+│ Runtime / agent failure  │ Interaction-trajectory      │
 │                          │ governance drift            │
 ├──────────────────────────┼─────────────────────────────┤
 │ known contract           │ longitudinal relation       │
@@ -632,13 +604,13 @@ SIIHA failure observation
 │ recovery execution       │ semantic construct          │
 ├──────────────────────────┼─────────────────────────────┤
 │ deterministic validation │ experimental longitudinal   │
-│ / trace-based analysis   │ measurement                │
+│ / trace-based analysis   │ measurement                 │
 └──────────────────────────┴─────────────────────────────┘
 ```
 
 This is a **current architectural direction**, not evidence that deterministic rules are always sufficient for runtime failures or that ML is necessarily required for trajectory failures.
 
-------------------------------------------------------------------------
+---
 
 # 12. Do Not Assume Governance Dimensions Share One Statistical Formulation
 
@@ -672,7 +644,7 @@ Shared components can still be used where the evidence supports them.
 
 This preserves SIIHA's common governance architecture without assuming that every governance dimension becomes statistically identifiable in the same way.
 
-------------------------------------------------------------------------
+---
 
 # Part IV --- Open Research Questions
 
@@ -685,7 +657,7 @@ Which SIIHA failures are already sufficiently specified by contracts, invariants
 
 Conversely, where does deterministic observability become too brittle or incomplete?
 
-------------------------------------------------------------------------
+---
 
 # 14. Which Governance Phenomena Genuinely Require Longitudinal Observation?
 
@@ -693,7 +665,7 @@ Which system-side governance failures cannot be evaluated adequately from one re
 
 A stronger future experiment should distinguish genuinely longitudinal phenomena from constructs that can already be measured reliably at the turn or event level.
 
-------------------------------------------------------------------------
+---
 
 # 15. What Is the Correct Unit of Analysis?
 
@@ -708,7 +680,7 @@ For constructs such as SG and EA, should the observable representation operate o
 
 The edge hypothesis remains open because Beta v0.2 did not reach ML.
 
-------------------------------------------------------------------------
+---
 
 # 16. How Do Generator and Judge Models Affect Synthetic Governance Data?
 
@@ -724,7 +696,7 @@ Future work should ask:
 
 These are methodology questions. Beta v0.2 did not isolate generator or Judge identity as the cause of its feasibility failure.
 
-------------------------------------------------------------------------
+---
 
 # 17. What Longitudinal Governance Problems Remain for Frontier Models?
 
@@ -754,7 +726,7 @@ Which evaluation unit---turn, continuity-valid transition, window, segment, comp
 
 These are **research questions**, not claims that current frontier models have been shown by the SIIHA Beta experiments to exhibit these failures.
 
-------------------------------------------------------------------------
+---
 
 # What the Two Experiments Establish
 
@@ -769,7 +741,7 @@ Within the scope of these synthetic feasibility studies, the evidence supports t
 -   Beta v0.2 therefore stopped before feature extraction or ML, leaving the continuity-valid edge hypothesis untested.
 -   Predefined freeze, information, regeneration, and stopping boundaries preserved negative or incomplete experimental outcomes rather than allowing post-hoc repair to redefine the experiment.
 
-------------------------------------------------------------------------
+---
 
 # What the Two Experiments Do Not Establish
 
@@ -793,7 +765,7 @@ The combined work does **not** establish that:
 
 These boundaries are part of the research result.
 
-------------------------------------------------------------------------
+---
 
 # Research Program Reframing
 
@@ -831,7 +803,7 @@ The current overarching question is:
 
 A future experiment may revisit node, edge, window, segment, or whole-trajectory representations. Beta v0.1 and Beta v0.2 do not predetermine the answer.
 
-------------------------------------------------------------------------
+---
 
 # Version Status
 

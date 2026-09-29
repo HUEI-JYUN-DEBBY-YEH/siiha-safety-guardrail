@@ -13,7 +13,7 @@
 
 **Research track:** [Overview](./README.md) · [Beta v0.2](./BETA_V0_2_DATASET_FEASIBILITY.md) · [Cross-Version Findings](./RESEARCH_FINDINGS.md)
 
-------------------------------------------------------------------------
+---
 
 ## Executive Summary
 
@@ -33,29 +33,23 @@ The raw synthetic corpus contained **400 trajectories / 4,627 completed turns**.
 
 Training used only the **145 governance-success Train trajectories**, representing **1,644 completed turns**. A Train-only observability audit retained **49 source fields**. Preprocessing produced four fixed-dimensional feature views:
 
-  Detector view     Final dimensions
-  --------------- ------------------
-  UG                             434
-  SG                             416
-  EA                             411
-  SF                              96
+  | Detector view | Final dimensions |
+  |---------------|------------------|
+  | UG | 434 |
+  | SG | 416 |
+  | EA | 411 |
+  | SF | 96 |
 
 Isolation Forest was retained as the primary model family after Validation-only comparison and controlled tuning. Model family, hyperparameters, calibration, trajectory aggregation, thresholds, feature order, and detector artifacts were frozen before the held-out Test set was opened.
 
 The one-shot held-out Test produced:
 
-  -----------------------------------------------------------------------------------
-  Goal         Positive   ROC-AUC    PR-AUC   Precision    Recall        F1       FPR
-           trajectories                                                     
-  ------ -------------- --------- --------- ----------- --------- --------- ---------
-  UG                  3     0.398     0.057       0.000     0.000     0.000     0.123
-
-  SG                  8     0.772     0.407       0.308     0.500     0.381     0.173
-
-  EA                 11     0.653     0.386       0.294     0.455     0.357     0.245
-
-  SF                  2     0.957     0.643       0.000     0.000     0.000     0.000
-  -----------------------------------------------------------------------------------
+  | Goal | Positive trajectories | ROC-AUC | PR-AUC | Precision | Recall | F1 | FPR |
+  | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- |                                                              
+  | UG | 3 | 0.398 | 0.057 | 0.000 | 0.000 | 0.000 | 0.123 |
+  | SG | 8 | 0.772 | 0.407 | 0.308 | 0.500 | 0.381 | 0.173 |
+  | EA | 11 | 0.653 | 0.386 | 0.294 | 0.455 | 0.357 | 0.245 |
+  | SF | 2 | 0.957 | 0.643 | 0.000 | 0.000 | 0.000 | 0.000 |
 
 These results do **not** provide sufficient evidence for a reliable goal-specific trajectory-drift detector. SG retained the strongest credible held-out signal; EA retained weaker signal with substantial false positives; UG did not demonstrate held-out generalization; and SF remained exploratory because only two Test trajectories were SF-positive and neither crossed the frozen threshold.
 
@@ -71,15 +65,13 @@ The central research question therefore shifted from:
 
 toward:
 
-> **How should longitudinal governance constructs be operationalized so
-> that their observable representations are statistically
-> identifiable?**
+> **How should longitudinal governance constructs be operationalized so that their observable representations are statistically identifiable?**
 
 Beta v0.1 closes as a **feasibility, error-discovery, and
 measurement-refinement experiment**, not as a validated trajectory-drift
 detector.
 
-------------------------------------------------------------------------
+---
 
 # 1. Motivation
 
@@ -114,7 +106,7 @@ layer, not the authority that decides whether the runtime should
 preserve agency, enforce a boundary, recover from failure, or change
 response behavior.
 
-------------------------------------------------------------------------
+---
 
 # 2. Governance Dimensions
 
@@ -171,7 +163,7 @@ SIIHA does not use these constructs to diagnose the user. A difficult,
 unusual, emotional, dependent, or safety-relevant user trajectory is not
 itself a governance failure.
 
-------------------------------------------------------------------------
+---
 
 # 3. Original Experimental Hypotheses
 
@@ -208,34 +200,42 @@ These were feasibility hypotheses, not claims of production validity.
 The experiment also depended on a stronger assumption that became more
 visible only after held-out evaluation:
 
-\[ `\text{Anomaly}`{=tex}(X\^{goal}) `\approx `{=tex}Y\_{goal} \]
+$$
+\text{Anomaly}(X^{goal}) \approx Y_{goal}
+$$
 
 where:
 
--   (X\^{goal}) is the goal-specific observable representation;
+-   $X^{goal}$ is the goal-specific observable representation;
 -   anomaly means deviation from the Train-normal distribution;
--   (Y\_{goal}) is the independently judged semantic governance outcome
+-   $Y_{goal}$ is the independently judged semantic governance outcome
     for UG, SG, EA, or SF.
 
-The models did **not** directly learn (Y). They learned normality in
-(X). The experiment then tested whether deviation in that feature space
+The models did **not** directly learn $Y$. They learned normality in
+$X$. The experiment then tested whether deviation in that feature space
 corresponded meaningfully to semantic drift.
 
 This distinction became central to interpreting the negative result.
 
-------------------------------------------------------------------------
+---
 
 # 4. Measurement Architecture
 
 One completed interaction turn produced one fixed-dimensional
-observation, (X_t\^\*).
+observation, $X_t^*$.
 
 Conceptually:
 
-\[ X_t\^\* = `\text{Current Turn Evidence}`{=tex} +
-`\text{Derived Relationships}`{=tex} +
-`\text{Cross-Turn Evidence}`{=tex} + `\text{Persistent State}`{=tex} +
-`\text{Selected Temporal Evidence}`{=tex} \]
+$$
+\begin{aligned}
+X_t^* ={}&
+\text{Current Turn Evidence} \\
+&+ \text{Derived Relationships} \\
+&+ \text{Cross-Turn Evidence} \\
+&+ \text{Persistent State} \\
+&+ \text{Selected Temporal Evidence}
+\end{aligned}
+$$
 
 The detector did not receive a raw variable-length conversation
 directly. Historical information was visible only when it had already
@@ -265,7 +265,7 @@ This architecture deliberately separated **turn-level anomaly
 detection** from **trajectory-level interpretation**. There was no fifth
 learned "overall drift detector."
 
-------------------------------------------------------------------------
+---
 
 # 5. Dataset Construction
 
@@ -322,9 +322,9 @@ Beta v0.1 used a **whole-trajectory semantic generation pipeline**. The generato
 
 ### 5.2.1 Model provenance
 
-Beta v0.1 used gpt-5.6-luna for synthetic trajectory generation. The exact generation-model identifier was preserved in scenario provenance.
+Beta v0.1 used `gpt-5.6-luna` for synthetic trajectory generation. The exact generation-model identifier was preserved in scenario provenance.
 
-Independent Semantic QA also used gpt-5.6-luna. Here, independent refers to separation from generation intent, Feature X, and detector outputs—not to the use of a different model family.
+Independent Semantic QA also used `gpt-5.6-luna`. Here, independent refers to separation from generation intent, Feature X, and detector outputs—not to the use of a different model family.
 
 The generator and Semantic Judge therefore used the same model family, but they served different experimental roles and operated under different information boundaries. Generation intent and generator metadata were not treated as semantic ground truth. The Semantic Judge evaluated realized longitudinal behavior and did not receive Feature X, detector outputs, assigned generation mechanism as truth, or ML split information.
 
@@ -414,20 +414,20 @@ runtime evidence required to evaluate SF. It did not use:
 
 The result was:
 
-  QA verdict       Count
-  ------------ ---------
-  ACCEPT             258
-  REJECT             134
-  REVIEW               8
-  **Total**      **400**
+  | QA verdict | Count |
+  | ---- | ---- |
+  | ACCEPT | 258 |
+  | REJECT | 134 |
+  | REVIEW | 8 |
+  | **Total** | **400** |
 
 By generation role:
 
-  Generation role      ACCEPT   REJECT   REVIEW
-  ------------------ -------- -------- --------
-  Controlled Drift         42       88        5
-  Novel Normal            134        1        0
-  Normal                   82       45        3
+  | Generation role | ACCEPT | REJECT | REVIEW |
+  | ---- | ---- | ---- | ---- |
+  | Controlled Drift | 42 | 88 | 5 |
+  | Novel Normal | 134 | 1 | 0 |
+  | Normal | 82 | 45 | 3 |
 
 The large disagreement between generation intent and realized behavior
 reinforced the decision not to treat generator metadata as observable
@@ -451,12 +451,12 @@ Five targeted cases were adjudicated and retained to resolve sparse SF coverage:
 
 The final dataset contained:
 
-  Split          Governance success   Governance drift     Total
-  ------------ -------------------- ------------------ ---------
-  Train                         145                  0       145
-  Validation                     32                 26        58
-  Test                           40                 20        60
-  **Total**                 **217**             **46**   **263**
+  | Split | Governance success | Governance drift | Total |
+  | ---- | ---- | ---- | ---- |
+  | Train | 145 | 0 | 145 |
+  | Validation | 32 | 26 | 58 |
+  | Test | 40 | 20 | 60 |
+  | **Total** | **217** | **46** | **263** |
 
 The remaining **137 trajectories were quarantined**.
 
@@ -470,7 +470,7 @@ could enter Train.
 
 Controlled/governance drift never entered model fitting.
 
-------------------------------------------------------------------------
+---
 
 # 6. Feature X and Preprocessing
 
@@ -705,7 +705,7 @@ P3 → semantic embedding + Train-fitted PCA
 
 Semantic free text was not one-hot encoded. `user_prompt_semantic` and `actual_system_response_semantic` were embedded using `text-embedding-3-small`. The embedding dimension was 1,536, followed by a **64-component PCA fitted on curated governance-success Train only**. Validation and Test used the already-fitted transformation.
 
-Categorical, multi-label, ordinal, numeric, missingness, and semantic fields followed their frozen representation decisions. Temporal/derived fields were restricted to lawful current/past observations; no future-turn information was permitted in online `X_t*`.
+Categorical, multi-label, ordinal, numeric, missingness, and semantic fields followed their frozen representation decisions. Temporal/derived fields were restricted to lawful current/past observations; no future-turn information was permitted in online `$X_t^*$`.
 
 The final processed matrices contained:
 
@@ -726,18 +726,21 @@ The final goal-specific model dimensions were:
 
 The dimensional expansion from 49 retained source fields to hundreds of model columns came from goal-specific selection and preprocessing—not from adding new semantic evidence after the feature freeze.
 
-------------------------------------------------------------------------
+---
 
 # 7. Why Normal-Only Anomaly Detection?
 
 Beta v0.1 did not formulate the task as:
 
-\[ X `\rightarrow `{=tex}`\text{supervised drift label}`{=tex} \]
+$$
+X \rightarrow \text{supervised drift label}
+$$
 
 Instead, the model learned only from successful governance:
 
-\[ X\_{`\text{success, Train}`{=tex}} `\rightarrow`{=tex}
-`\text{normal region}`{=tex} \]
+$$
+X_{\text{success, Train}} \rightarrow \text{normal region}
+$$
 
 A new turn was then scored according to its deviation from that learned
 region.
@@ -756,7 +759,7 @@ The tradeoff is fundamental:
 The held-out experiment therefore tested whether those two concepts
 aligned sufficiently well.
 
-------------------------------------------------------------------------
+---
 
 # 8. Model Families
 
@@ -783,7 +786,7 @@ Four independent goal-specific detectors were trained:
 
 There was no learned overall detector.
 
-------------------------------------------------------------------------
+---
 
 # 9. Experimental Discipline
 
@@ -837,29 +840,19 @@ The Test set was then evaluated once. No retraining, threshold search,
 aggregation selection, calibration fitting, or model-family selection
 was permitted after Test results were observed.
 
-------------------------------------------------------------------------
+---
 
 # 10. Final Frozen Detectors
 
 The final primary model family was Isolation Forest for all four
 dimensions.
 
-  ----------------------------------------------------------------------------
-  Goal             Isolation Forest     Aggregation           Frozen threshold
-                   configuration                         
-  ---------------- -------------------- ---------------- ---------------------
-  UG               500 trees,           Mean                      0.6976885645
-                   `max_features=0.7`                    
-
-  SG               500 trees,           Top-K Mean                0.8819951338
-                   `max_features=0.7`   (`k=3`)          
-
-  EA               500 trees,           Late Mean (last           0.4688564477
-                   `max_features=1.0`   50%)             
-
-  SF               300 trees,           Late Mean (last           0.9489051095
-                   `max_features=1.0`   50%)             
-  ----------------------------------------------------------------------------
+| Goal | Isolation Forest configuration | Aggregation | Frozen threshold |
+|---|---|---|---:|
+| UG | 500 trees, `max_features=0.7` | Mean | 0.6976885645 |
+| SG | 500 trees, `max_features=0.7` | Top-K Mean (`k=3`) | 0.8819951338 |
+| EA | 500 trees, `max_features=1.0` | Late Mean (last 50%) | 0.4688564477 |
+| SF | 300 trees, `max_features=1.0` | Late Mean (last 50%) | 0.9489051095 |
 
 For all four detectors:
 
@@ -869,7 +862,9 @@ For all four detectors:
 
 Turn-level raw anomaly score was defined as:
 
-\[ -`\text{decision\_function}`{=tex}(X) \]
+$$
+-\text{decision\_function}(X)
+$$
 
 so larger values represented greater anomaly relative to the
 Train-normal detector.
@@ -880,7 +875,7 @@ governance-success Train data.
 The resulting calibrated score was a **Train-normal empirical
 percentile**, not a probability that drift had occurred.
 
-------------------------------------------------------------------------
+---
 
 # 11. Held-Out Test Results
 
@@ -890,12 +885,12 @@ at least one drift label.
 
 Goal-specific Test results were:
 
-  Goal     Positives   ROC-AUC   PR-AUC   Precision   Recall      F1     FPR
-  ------ ----------- --------- -------- ----------- -------- ------- -------
-  UG               3     0.398    0.057       0.000    0.000   0.000   0.123
-  SG               8     0.772    0.407       0.308    0.500   0.381   0.173
-  EA              11     0.653    0.386       0.294    0.455   0.357   0.245
-  SF               2     0.957    0.643       0.000    0.000   0.000   0.000
+  | Goal | Positives | ROC-AUC | PR-AUC | Precision | Recall | F1 | FPR |
+  |---|---:|---:|---:|---:|---:|---:|---:|
+  | UG | 3 | 0.398 | 0.057 | 0.000 | 0.000 | 0.000 | 0.123 |
+  | SG | 8 | 0.772 | 0.407 | 0.308 | 0.500 | 0.381 | 0.173 |
+  | EA | 11 | 0.653 | 0.386 | 0.294 | 0.455 | 0.357 | 0.245 |
+  | SF | 2 | 0.957 | 0.643 | 0.000 | 0.000 | 0.000 | 0.000 |
 
 ## 11.1 UG
 
@@ -929,7 +924,7 @@ SF-positive** and neither crossed the frozen threshold.
 The sample is too small to treat the aggregate metrics as stable. SF
 remains exploratory and case-level.
 
-------------------------------------------------------------------------
+---
 
 # 12. Initial Hypothesis Assessment
 
@@ -957,7 +952,7 @@ behavior remained incomplete.
 These hypothesis-level observations do **not** establish reliable
 semantic drift detection.
 
-------------------------------------------------------------------------
+---
 
 # 13. Post-Test Error Analysis
 
@@ -1048,7 +1043,7 @@ The narrower conclusion is:
 
 The cross-goal error pattern is retained as a diagnostic hypothesis about representation and construct specificity for future work.
 
-------------------------------------------------------------------------
+---
 
 # 14. Post-Test Artifact Audit
 
@@ -1068,12 +1063,12 @@ The four frozen detector artifacts were confirmed to be fitted
 Fitted attributes were present, including model feature counts and
 estimator collections.
 
-  Goal     Fitted feature count   Fitted trees
-  ------ ---------------------- --------------
-  UG                        434            500
-  SG                        416            500
-  EA                        411            500
-  SF                         96            300
+  | Goal | Fitted feature count | Fitted trees |
+  |---|---:|---:|
+  | UG | 434 | 500 |
+  | SG | 416 | 500 |
+  | EA | 411 | 500 |
+  | SF | 96 | 300 |
 
 The dimensions matched the frozen P3 representations and feature-name
 manifests.
@@ -1122,7 +1117,7 @@ The negative held-out result should therefore be treated as a
 substantive experimental result unless a later audit discovers a new
 implementation defect.
 
-------------------------------------------------------------------------
+---
 
 # 15. Representation Audit Findings
 
@@ -1133,18 +1128,12 @@ of the frozen representation.
 
 Within the 1,644 Train turns:
 
-  -----------------------------------------------------------------------
-  Goal               Total features     Constant Train   Approx. constant
-                                              features              share
-  -------------- ------------------ ------------------ ------------------
-  UG                            434                108              24.9%
-
-  SG                            416                 76              18.3%
-
-  EA                            411                 76              18.5%
-
-  SF                             96                 28              29.2%
-  -----------------------------------------------------------------------
+  | Goal | Total features | Constant Train features | Approx. constant share |
+  |---|---:|---:|---:|
+  | UG | 434 | 108 | 24.9% |
+  | SG | 416 | 76 | 18.3% |
+  | EA | 411 | 76 | 18.5% |
+  | SF | 96 | 28 | 29.2% |
 
 A constant Train feature is not automatically a design error. Some
 runtime states or categories may legitimately never occur in successful
@@ -1179,7 +1168,7 @@ The finding raises a formulation question:
 
 Beta v0.1 does not answer that question.
 
-------------------------------------------------------------------------
+---
 
 # 16. Deeper Diagnosis: The Feature X → Semantic Y Assumption
 
@@ -1188,9 +1177,11 @@ deeper issue than model training speed or a single threshold.
 
 The original experiment effectively tested:
 
-\[ `\text{Deviation from normal }`{=tex}X\^{goal}
-`\stackrel{?}{\approx}`{=tex} `\text{semantic drift in }`{=tex}Y\_{goal}
-\]
+$$
+\text{Deviation from normal } X^{goal}
+\stackrel{?}{\approx}
+\text{semantic drift in } Y_{goal}
+$$
 
 The evidence suggests that this relationship was not sufficiently
 reliable.
@@ -1209,7 +1200,7 @@ Testing that hypothesis would require a new experiment with stronger construct-c
 
 The UG false-negative analysis in Section 13.1 illustrates this possibility within the held-out cases: trajectories judged as semantic UG drift under independent QA could remain normal-like in the frozen representation.
 
-This provides case-level evidence that semantic drift in (Y) was not necessarily expressed as sufficient statistical deviation in the current (X).
+This provides case-level evidence that semantic drift in $Y$ was not necessarily expressed as sufficient statistical deviation in the current $X$.
 
 ## 16.3 The Central Measurement Finding
 
@@ -1234,7 +1225,7 @@ Several explanations may interact:
 
 Beta v0.1 cannot isolate a single causal root cause.
 
-------------------------------------------------------------------------
+---
 
 # 17. Reframing the Research Problem
 
@@ -1269,9 +1260,9 @@ Model
 
 In shorthand:
 
-\[
-`\boxed{Y \rightarrow \text{Evidence} \rightarrow X \rightarrow \text{Model}}`{=tex}
-\]
+$$
+\boxed{Y \rightarrow \text{Evidence} \rightarrow X \rightarrow \text{Model}}
+$$
 
 This is a research lesson from Beta v0.1, not a claim that one
 replacement architecture has already been validated.
@@ -1285,7 +1276,7 @@ It is:
 > **What observable structure must exist for a longitudinal governance
 > construct to become statistically identifiable?**
 
-------------------------------------------------------------------------
+---
 
 # 18. Research Directions for a Future Version
 
@@ -1365,7 +1356,7 @@ Future work should also include:
 -   eventually, carefully governed non-synthetic or real human--AI
     interaction data.
 
-------------------------------------------------------------------------
+---
 
 # 19. What Beta v0.1 Demonstrates
 
@@ -1376,7 +1367,7 @@ Within the scope of this synthetic feasibility experiment, Beta v0.1 showed that
 - post-Test error analysis identified representation and measurement concerns that were not apparent from aggregate metrics alone;
 - artifact-level audit ruled out several obvious pipeline-failure explanations for the negative held-out result.
 
-------------------------------------------------------------------------
+---
 
 # 20. What Beta v0.1 Does Not Demonstrate
 
@@ -1398,7 +1389,7 @@ Beta v0.1 does **not** demonstrate that:
 
 These boundaries are part of the result.
 
-------------------------------------------------------------------------
+---
 
 # 21. Relationship to SIIHA Runtime Governance
 
@@ -1441,7 +1432,7 @@ The Beta v0.1 detector should therefore be understood as an
 **experimental measurement layer**, not as the governance authority of
 SIIHA.
 
-------------------------------------------------------------------------
+---
 
 # 22. Final Conclusion
 
@@ -1486,28 +1477,28 @@ measurement-refinement experiment**, while the deterministic SIIHA
 runtime-governance architecture remains a separate implemented system
 layer.
 
-------------------------------------------------------------------------
+---
 
 # Appendix A --- Frozen Experiment Snapshot
 
-  Item                     Frozen Beta v0.1 value
-  ------------------------ ---------------------------------------------
-  Raw corpus               400 trajectories / 4,627 completed turns
-  Semantic QA              258 ACCEPT / 134 REJECT / 8 REVIEW
-  Frozen dataset           263 trajectories
-  Quarantined              137 trajectories
-  Train                    145 success trajectories / 1,644 turns
-  Validation               58 trajectories / 692 turns
-  Test                     60 trajectories / 707 turns
-  Eligible source fields   49
-  UG dimensions            434
-  SG dimensions            416
-  EA dimensions            411
-  SF dimensions            96
-  Primary model            Isolation Forest
-  Baseline                 RBF One-Class SVM
-  Calibration              Train-normal empirical percentile
-  Test policy              One-shot held-out Test; no post-Test tuning
+  | Item | Frozen Beta v0.1 value |
+  |---|---|
+  | Raw corpus | 400 trajectories / 4,627 completed turns |
+  | Semantic QA | 258 ACCEPT / 134 REJECT / 8 REVIEW |
+  | Frozen dataset | 263 trajectories |
+  | Quarantined | 137 trajectories |
+  | Train | 145 success trajectories / 1,644 turns |
+  | Validation | 58 trajectories / 692 turns |
+  | Test | 60 trajectories / 707 turns |
+  | Eligible source fields | 49 |
+  | UG dimensions | 434 |
+  | SG dimensions | 416 |
+  | EA dimensions | 411 |
+  | SF dimensions | 96 |
+  | Primary model | Isolation Forest |
+  | Baseline | RBF One-Class SVM |
+  | Calibration | Train-normal empirical percentile |
+  | Test policy | One-shot held-out Test; no post-Test tuning |
 
 # Appendix B --- Internal Source Records
 
@@ -1533,13 +1524,13 @@ performed after the frozen experiment to investigate the negative
 result. It was read-only and did not modify the Beta v0.1 model,
 thresholds, dataset, or Test result.
 
-------------------------------------------------------------------------
+---
 
 # 23. Follow-Up: Beta v0.2
 
 Beta v0.1 did not establish that its turn-centered representation was the sole cause of the held-out limitations. The post-Test findings instead motivated a narrower **measurement hypothesis**.
 
-SIIHA's runtime trajectory ontology is continuity-defined: adjacent completed turns belong to the same longitudinal trajectory only when continuity is established. Beta v0.1, by contrast, primarily represented each completed turn as one fixed-dimensional observation, `X_t*`, and then aggregated turn-level anomaly scores.
+SIIHA's runtime trajectory ontology is continuity-defined: adjacent completed turns belong to the same longitudinal trajectory only when continuity is established. Beta v0.1, by contrast, primarily represented each completed turn as one fixed-dimensional observation, `$X_t^*$`, and then aggregated turn-level anomaly scores.
 
 This raised the following follow-up question:
 

@@ -271,72 +271,72 @@ User Prompt
 | clarification analysis    |                                     |
 +---------------------------+                                     |
     |                                                             |
-    +----------------------+----------------------+                 |
-    |                      |                      |                 |
-    v                      v                      v                 |
-+------------------+ +-------------------+ +--------------------+  |
-| Negotiated       | | Critical Info /   | | Runtime Failure    |  |
-| Behavior         | | Verified Facts    | | Control            |  |
-| Governance       | | Recall Decision   | | from prior turns   |  |
-+------------------+ +-------------------+ +--------------------+  |
-    |                      |                      |                 |
-    +----------------------+----------------------+                 |
-                           |                                        |
-                           v                                        |
-                +---------------------------+                       |
-                | Response Router           |                       |
-                | Runtime policy selection  |                       |
-                +---------------------------+                       |
-                           |                                        |
-                           v                                        |
-                +---------------------------+                       |
-                | State Transition          |                       |
-                | Validation                |                       |
-                +---------------------------+                       |
-                           |                                        |
-                           v                                        |
-                +---------------------------+                       |
-                | Response Renderer         |                       |
-                | LLM + runtime modifiers   |                       |
-                +---------------------------+                       |
-                           |                                        |
-                           v                                        |
-                +---------------------------+                       |
-                | Output Filter             |                       |
-                | Retry / Safe Fallback     |                       |
-                +---------------------------+                       |
-                           |                                        |
-                           v                                        |
-                +---------------------------+                       |
-                | Response Parsing Engine   |                       |
-                | Post-generation behavior  |                       |
-                | observation               |                       |
-                +---------------------------+                       |
-                           |                                        |
-                           v                                        |
-                    Response to User                                |
-                           |                                        |
-             +-------------+----------------+                       |
-             |                              |                       |
-             v                              v                       |
-+---------------------------+    +---------------------------+      |
-| Memory Agent              |    | Authoritative Turn Record |      |
-| Critical information     |    | Completed runtime record  |      |
-| Verified facts           |    +---------------------------+      |
-| Active projection        |                 |                      |
-+---------------------------+                 v                      |
-             |                    +---------------------------+     |
-             |                    | Trajectory Graph          |     |
-             |                    | Turn node creation        |     |
-             |                    +---------------------------+     |
-             |                                 |                     |
-             |                                 v                     |
-             |                    +---------------------------+     |
-             |                    | Continuity Resolver       |     |
-             |                    | Cross-turn relatedness    |     |
-             |                    | & continuity edges        |     |
-             |                    +---------------------------+     |
-             |                                                      |
+    +----------------------+----------------------+               |
+    |                      |                      |               |
+    v                      v                      v               |
++------------------+ +-------------------+ +--------------------+ |
+| Negotiated       | | Critical Info /   | | Runtime Failure    | |
+| Behavior         | | Verified Facts    | | Control            | |
+| Governance       | | Recall Decision   | | from prior turns   | |
++------------------+ +-------------------+ +--------------------+ |
+    |                      |                      |               |
+    +----------------------+----------------------+               |
+                           |                                      |
+                           v                                      |
+                +---------------------------+                     |
+                | Response Router           |                     |
+                | Runtime policy selection  |                     |
+                +---------------------------+                     |
+                           |                                      |
+                           v                                      |
+                +---------------------------+                     |
+                | State Transition          |                     |
+                | Validation                |                     |
+                +---------------------------+                     |
+                           |                                      |
+                           v                                      |
+                +---------------------------+                     |
+                | Response Renderer         |                     |
+                | LLM + runtime modifiers   |                     |
+                +---------------------------+                     |
+                           |                                      |
+                           v                                      |
+                +---------------------------+                     |
+                | Output Filter             |                     |
+                | Retry / Safe Fallback     |                     |
+                +---------------------------+                     |
+                           |                                      |
+                           v                                      |
+                +---------------------------+                     |
+                | Response Parsing Engine   |                     |
+                | Post-generation behavior  |                     |
+                | observation               |                     |
+                +---------------------------+                     |
+                           |                                      |
+                           v                                      |
+                    Response to User                              |
+                           |                                      |
+             +-------------+----------------+                     |
+             |                              |                     |
+             v                              v                     |
++---------------------------+    +---------------------------+    |
+| Memory Agent              |    | Authoritative Turn Record |    |
+| Critical information     |    | Completed runtime record   |    |
+| Verified facts           |    +---------------------------+     |
+| Active projection        |                 |                    |
++---------------------------+                v                    |
+             |                    +---------------------------+   |
+             |                    | Trajectory Graph          |   |
+             |                    | Turn node creation        |   |
+             |                    +---------------------------+   |
+             |                                 |                  |
+             |                                 v                  |
+             |                    +---------------------------+   |
+             |                    | Continuity Resolver       |   |
+             |                    | Cross-turn relatedness    |   |
+             |                    | & continuity edges        |   |
+             |                    +---------------------------+   |
+             |                                                     |
              |      +--------------------------------------------+  |
              |      | Runtime Observation Pipeline               |  |
              |      |                                            |  |
@@ -552,12 +552,12 @@ The frozen experiment used:
 
 #### Held-Out Test Results
 
-  Goal                      Positive Test Trajectories   ROC-AUC   PR-AUC      F1
-  ----------------------- ---------------------------- --------- -------- -------
-  User Goal (UG)                                     3     0.398    0.057   0.000
-  Safety Goal (SG)                                   8     0.772    0.407   0.381
-  Epistemic Agency (EA)                             11     0.653    0.386   0.357
-  System Function (SF)                               2     0.957    0.643   0.000
+  | Goal | Positive Test Trajectories | ROC-AUC | PR-AUC | F1 |
+  | ---- | ---- | ---- | ---- | ---- |
+  | User Goal (UG) | 3 | 0.398 | 0.057 | 0.000 |
+  | Safety Goal (SG) | 8 | 0.772 | 0.407 | 0.381 |
+  | Epistemic Agency (EA) | 11 | 0.653 | 0.386 | 0.357 |
+  | System Function (SF) | 2 | 0.957 | 0.643 | 0.000 |
 
 The held-out experiment did **not** provide sufficient evidence for reliable goal-specific semantic trajectory-drift detection.
 
@@ -606,11 +606,11 @@ Its frozen design required:
 
 Initial curation produced:
 
-  Decision     Count
-  ---------- -------
-  ACCEPT          71
-  REJECT          19
-  REVIEW           0
+  | Decision | Count |
+  |----------|-------|
+  | ACCEPT | 71 |
+  | REJECT | 19 |
+  | REVIEW | 0 |
 
 The 19 rejected requirements entered regeneration. Across **51 fresh realizations**, only **5** required replacements were recovered. The remaining **14** exhausted the allowed generation budget and were recorded as `scenario_generation_failure`.
 
@@ -826,41 +826,16 @@ Several of these directions informed Beta development, particularly structured m
 
 ### Alpha → Beta Evolution
 
-  -------------------------------------------------------------------------------
-  Research Area     Alpha Baseline    Beta Runtime         Beta Trajectory
-                                                           Research
-  ----------------- ----------------- -------------------- ----------------------
-  Runtime           Deterministic     Extended runtime     Separate experimental
-  constraints       baseline          governance           research layer
-
-  Multi-turn        Limited           Dynamic trajectory + Longitudinal
-  observation       recent-turn       observation windows  measurement problem
-                    window                                 
-
-  Memory            Limited recent    Structured           Observable research
-                    state             governance memory    evidence where
-                                                           applicable
-
-  Trajectory        Recent-turn state Continuity-defined   v0.1 turn-centered;
-  representation    / signals         graph                v0.2 edge hypothesis
-
-  Drift detection   Future work       Not runtime          Experimental
-                                      authority            
-
-  ML modeling       Not included      Not required for     v0.1 completed; v0.2
-                                      deterministic        stopped before ML
-                                      runtime governance   
-
-  Evaluation        Baseline          Runtime engineering  v0.1 frozen
-                    demonstration                          Validation + one-shot
-                                                           Test; v0.2
-                                                           semantic-feasibility
-                                                           gate
-
-  Current research  Longer-term       Longitudinal runtime Y → evidence → unit →
-  problem           governance not    continuity           X → model
-                    represented                            
-  -------------------------------------------------------------------------------
+  | Research Area | Alpha Baseline | Beta Runtime | Beta Trajectory Research |
+  | ---- | ---- | ---- | ---- |                                                         
+  | Runtime constraints | Deterministic baseline | Extended runtime governance | Separate experimental research layer |
+  | Multi-turn observation | Limited recent-turn window | Dynamic trajectory + observation windows | Longitudinal measurement problem |
+  | Memory | Limited recent state | Structured governance memory | Observable research evidence where applicable |
+  | Trajectory representation | Recent-turn state / signals | Continuity-defined graph | v0.1 turn-centered; v0.2 edge hypothesis |
+  | Drift detection | Future work | Not runtime authority | Experimental |                                
+  | ML modeling | Not included | Not required for deterministic runtime governance | v0.1 completed; v0.2 stopped before ML |
+  | Evaluation | Baseline demonstration | Runtime engineering | v0.1 frozen Validation + one-shot Test; v0.2 semantic-feasibility gate |
+  | Current research problem | Longer-term governance not represented | Longitudinal runtime continuity | Y → evidence → unit → X → model |
 
 ### Current Research Direction
 
