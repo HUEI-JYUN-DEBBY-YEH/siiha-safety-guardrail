@@ -2,7 +2,7 @@
 
 An experimental system-level AI safety guardrail focused on preserving human agency and governing interaction-level risks during prolonged human-AI interaction.
 
-------------------------------------------------------------------------
+---
 
 ## Project Overview
 
@@ -50,7 +50,7 @@ Some interaction-level risks may emerge gradually across multiple turns and may 
 
 SIIHA investigates whether an external runtime governance layer can help observe and constrain such interaction patterns while preserving human agency.
 
-------------------------------------------------------------------------
+---
 
 ## Research Progress: Alpha → Beta
 
@@ -181,23 +181,37 @@ Frozen Evaluation
 
 The current question is not simply which detector performs best, but how longitudinal governance constructs should be operationalized into observable, independently validatable units before model optimization begins.
 
-------------------------------------------------------------------------
+---
 
-## Alpha Demo Video
+## Demo Video
 
-### SIIHA Runtime Governance Demo
+### Alpha ─ SIIHA Runtime Governance Baseline
 
 Watch on YouTube:
 
 https://youtu.be/9Br2icVeIx8
 
-[![SIIHA Runtime Governance Demo](assets/thumbnail.png)](https://youtu.be/9Br2icVeIx8)
+[![SIIHA Runtime Governance Baseline](assets/thumbnail.png)](https://youtu.be/9Br2icVeIx8)
 
 The demo compares raw LLM behavior and SIIHA-governed responses under the same model, API key, and token budget.
 
 The objective is not to outperform the foundation model, but to demonstrate how a runtime governance layer can observe interaction risks, apply constraints, and release constraints when recovery signals appear.
 
-------------------------------------------------------------------------
+### Beta ─ Runtime Governance Extension & Trajectory Drift Research
+
+Watch on YouTube:
+
+https://youtu.be/FedEKbEb7eM
+
+[![SIIHA Safety Guardrail Beta](assets/beta_thumbnail.png)](https://youtu.be/FedEKbEb7eM)
+
+This demo presents the SIIHA Beta runtime-governance extensions, including trajectory continuity, structured governance memory, negotiated behavior, and longitudinal runtime observation.
+
+It also presents the Beta trajectory-drift research: a completed v0.1 held-out ML experiment that did not establish reliable goal-specific semantic drift detection, followed by a preregistered v0.2 dataset-feasibility experiment that was stopped before ML training when the predefined semantic validity gate was not met.
+
+The objective is to demonstrate both the evolution of SIIHA's runtime-governance architecture and the experimental process used to investigate whether longer-term governance drift can be measured reliably.
+
+---
 
 ## System Architecture
 
@@ -407,7 +421,7 @@ Beta v0.2 subsequently proposed a continuity-valid edge representation for SG an
 See [Beta v0.1 --- Trajectory Drift Detection Experiment](docs/trajectory_drift_research/BETA_V0_1_EXPERIMENT.md) and 
 [Beta v0.2 --- Dataset Feasibility for Continuity-Valid Edge Representation](docs/trajectory_drift_research/BETA_V0_2_DATASET_FEASIBILITY.md).
 
-------------------------------------------------------------------------
+---
 
 ## Research Scope
 
@@ -529,7 +543,7 @@ SIIHA distinguishes critical information and verified facts from user interpreta
 
 The Beta memory architecture is designed to preserve information relevant to future interaction governance while limiting unnecessary retention and recall.
 
-------------------------------------------------------------------------
+---
 
 ## Trajectory Drift Research
 
@@ -683,7 +697,7 @@ This is a current architectural and research direction, not evidence that determ
 
 For the complete cross-version synthesis, methodological lessons, ablation questions, and open research questions, see [Cross-Version Research Findings](docs/trajectory_drift_research/RESEARCH_FINDINGS.md).
 
-------------------------------------------------------------------------
+---
 
 ## Implementation Overview
 
@@ -730,7 +744,7 @@ For the complete cross-version synthesis, methodological lessons, ablation quest
 -   Localhost deployment
 -   Gemini Free Tier API
 
-------------------------------------------------------------------------
+---
 
 ## Documentation
 
@@ -746,7 +760,7 @@ For the complete cross-version synthesis, methodological lessons, ablation quest
 -   [Beta v0.2 --- Dataset Feasibility for Continuity-Valid Edge Representation](docs/trajectory_drift_research/BETA_V0_2_DATASET_FEASIBILITY.md)
 -   [Cross-Version Research Findings](docs/trajectory_drift_research/RESEARCH_FINDINGS.md)
 
-------------------------------------------------------------------------
+---
 
 ## Limitations & Open Questions
 
@@ -806,7 +820,7 @@ For the complete cross-version synthesis, methodological lessons, ablation quest
     personalization, and safety behavior, which longitudinal governance
     failures remain unresolved and worth measuring?
 
-------------------------------------------------------------------------
+---
 
 ## Development Roadmap
 
@@ -854,7 +868,7 @@ Important unresolved questions include:
 
 The Beta v0.2 edge hypothesis may be revisited in a future experiment, but the current evidence does not predetermine the appropriate representation.
 
-------------------------------------------------------------------------
+---
 
 ## Development Status
 
@@ -864,7 +878,7 @@ The Beta v0.2 edge hypothesis may be revisited in a future experiment, but the c
 -   **Release Date:** 2026/06/15
 -   **Status:** Released
 
-### Beta
+### Beta Public Release
 
 -   **Version:** `siiha-safety-guardrail v1.0-beta`
 -   **Release Date:** 2026/10/05
@@ -874,10 +888,7 @@ The Beta v0.2 edge hypothesis may be revisited in a future experiment, but the c
 -   **Research Status:** Beta v0.1 ML experiment closed; Beta v0.2
     dataset-feasibility follow-up closed before ML; cross-version
     findings documented
--   **Current Focus:** Beta runtime integration, public documentation,
-    demonstration preparation, and consolidation of trajectory-drift
-    research findings
--   **Status:** Final check before release
+-   **Status:** Released
 
 ------------------------------------------------------------------------
 
